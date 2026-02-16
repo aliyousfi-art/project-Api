@@ -1,38 +1,80 @@
-// 1 — Récupère les films depuis l’API
-async function afficherTout() {
-  const zone = document.getElementById("zone");
+const button = document.getElementById("zone");
+const cardsContainer = document.getElementById("cards");
+const statusEl = document.getElementById("status");
 
-  const reponse = await fetch("https://ghibliapi.vercel.app/films");
-  const films = await reponse.json();
+const API_URL = "https://ghibliapi.vercel.app/films";
 
-  films.forEach(film => {
-    const carte = faireCarte(film);
-    zone.appendChild(carte);
-  });
+function setStatus(message) {
+  statusEl.textContent = message || "";
 }
 
+function clearCards() {
+  cardsContainer.innerHTML = "";
+}
 
-// 2 — Fabrique une carte pour un film
-function faireCarte(film) {
-  const carte = document.createElement("div");
-  carte.className = "carte";
+function createFilmCard(film) {
+  const card = document.createElement("div");
+  card.className = "card";
 
-  const titre = document.createElement("h3");
-  titre.textContent = film.title;
+  // Selon l'API, tu peux avoir image ou movie_banner (ou aucun)
+  const imgUrl = film.image || film.movie_banner || "";
 
-  const annee = document.createElement("p");
-  annee.textContent = "Année : " + film.release_date;
+  const img = document.createElement("img");
+  img.src = imgUrl;
+  img.alt = film.title || "Film Ghibli";
+  // si jamais l'image ne charge pas, on évite l'icône cassée
+  img.onerror = () => {
+    img.removeAttribute("src");
+    img.style.height = "160px";
+  };
+
+  const content = document.createElement("div");
+  content.className = "card-content";
+
+  const title = document.createElement("h2");
+  title.textContent = film.title || "Sans titre";
 
   const desc = document.createElement("p");
-  desc.textContent = film.description;
+  desc.textContent = film.description || "Pas de description.";
 
-  carte.appendChild(titre);
-  carte.appendChild(annee);
-  carte.appendChild(desc);
+  content.appendChild(title);
+  content.appendChild(desc);
 
-  return carte; // je rends la carte
+  card.appendChild(img);
+  card.appendChild(content);
+
+  return card;
 }
 
+async function fetchFilms() {
+  const response = await fetch(API_URL);
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return response.json();
+}
 
-// 3 — Lance tout quand la page s'ouvre
-afficherTout();
+async function handleClick() {
+  try {
+    button.disabled = true;
+    setStatus("Chargement des films...");
+    clearCards();
+
+    const films = await fetchFilms();
+
+    // Afficher tous les films (pas aléatoire)
+    films.forEach((film) => {
+      const card = createFilmCard(film);
+      cardsContainer.appendChild(card);
+    });
+
+    setStatus(`✅ ${films.length} films affichés.`);
+  } catch (err) {
+    console.error(err);
+    setStatus("❌ Erreur : impossible de charger les films. Réessaie.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+button.addEventListener("click", handleClick);
