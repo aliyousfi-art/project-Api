@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Api - Studio Ghibli</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div id="zone"></div>
+  <header class="header">
+    <nav class="nav">
+      <div class="brand">Ghibli Films</div>
+      <ul class="nav-links">
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#cards">API-Films</a></li>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <h1>Consulter nos Films du Studio Ghibli</h1>
+      <p>Clique sur le bouton pour récupérer et afficher tous les films.</p>
+      <button id="zone" class="btn">API GENERATE 🤖</button>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="results">
+      <div id="cards" class="cards-grid"></div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
