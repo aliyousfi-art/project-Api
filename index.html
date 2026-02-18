@@ -3,34 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Api - Studio Ghibli</title>
+  <title>Project API - Ghibli</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <header class="header">
     <nav class="nav">
-      <div class="brand">Ghibli Films</div>
+      <div class="brand">Project API</div>
+
       <ul class="nav-links">
-        <li><a href="#">Accueil</a></li>
-        <li><a href="#cards">API-Films</a></li>
-        <li><a href="#">À propos</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="#home">Accueil</a></li>
+
+        <!-- DROPDOWN -->
+        <li class="dropdown" id="dropdown">
+          <button class="dropdown-toggle" id="dropdownBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            Menu ▾
+          </button>
+
+          <ul class="dropdown-menu" id="dropdownMenu" role="menu">
+            <li role="none"><a role="menuitem" href="#films">Films (API)</a></li>
+            <li role="none"><a role="menuitem" href="#posts">Posts</a></li>
+            <li role="none"><a role="menuitem" href="#gallery">Galerie</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="main">
-    <section class="hero">
-      <h1>Consulter nos Films du Studio Ghibli</h1>
-      <p>Clique sur le bouton pour récupérer et afficher tous les films.</p>
+  <main class="main" id="home">
+
+    <!-- API FILMS -->
+    <section class="hero" id="films">
+      <h1>Films Studio Ghibli</h1>
+      <p>Clique pour générer toutes les cards via l’API.</p>
       <button id="zone" class="btn">API GENERATE 🤖</button>
       <p id="status" class="status"></p>
-    </section>
 
-    <section class="results">
       <div id="cards" class="cards-grid"></div>
     </section>
+
+    <!-- POSTS (FORMULAIRE DYNAMIQUE) -->
+    <section class="section" id="posts">
+      <h2>Posts / Articles</h2>
+      <p>Ajoute un post (avec image optionnelle) puis supprime-le.</p>
+
+      <form id="postForm" class="form">
+        <input id="postTitle" type="text" placeholder="Titre du post" required />
+        <textarea id="postText" placeholder="Contenu du post" required></textarea>
+
+        <input id="postImageUrl" type="url" placeholder="URL d'image (optionnel)" />
+        <input id="postImageFile" type="file" accept="image/*" />
+
+        <button class="btn" type="submit">Créer le post</button>
+      </form>
+
+      <div id="postsContainer" class="posts-grid"></div>
+    </section>
+
+    <!-- GALERIE -->
+    <section class="section" id="gallery">
+      <h2>Galerie</h2>
+      <p>Ajoute une image dans la galerie puis supprime-la.</p>
+
+      <form id="galleryForm" class="form">
+        <input id="galleryImageUrl" type="url" placeholder="URL d'image" />
+        <input id="galleryImageFile" type="file" accept="image/*" />
+        <button class="btn" type="submit">Ajouter à la galerie</button>
+      </form>
+
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <p>Section contact (placeholder).</p>
+    </section>
+
   </main>
 
   <script src="script.js"></script>
